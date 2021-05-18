@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"graphyy/controller/scooter"
-	"graphyy/repository"
+	"legendary-kimchi/controller/scooter"
+	"legendary-kimchi/service"
 )
 
 // Controllers contains all the controllers
@@ -11,8 +11,8 @@ type Controllers struct {
 }
 
 // InitControllers returns a new Controllers
-func InitControllers(repositories *repository.Repositories) *Controllers {
+func InitControllers(services *service.Services) *Controllers {
 	return &Controllers{
-		scooterController: scooter.InitController(repositories.ScooterRepo),
+		scooterController: scooter.InitController(services.ScooterService),
 	}
 }

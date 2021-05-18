@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"graphyy/controller"
-	"graphyy/database"
-	"graphyy/internal"
-	"graphyy/migration"
-	"graphyy/repository"
+	"legendary-kimchi/controller"
+	"legendary-kimchi/internal"
+	"legendary-kimchi/migration"
+	"legendary-kimchi/service"
+	"legendary-kimchi/storage"
 	"net/http"
 	"os"
 )
@@ -16,8 +16,8 @@ func main() {
 		migration.DataMigration()
 		os.Exit(0)
 	}
-	db := database.InitDatabase()
-	repos := repository.InitRepositories(db)
+	db := storage.InitDatabase()
+	repos := service.InitServices(db)
 	controllers := controller.InitControllers(repos)
 	schema := controller.Schema(controllers)
 	handler := controller.GraphqlHandlfunc(schema)

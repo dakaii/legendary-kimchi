@@ -1,32 +1,32 @@
-package repository
+package service
 
 import (
 	"context"
 	"fmt"
-	"graphyy/database"
-	"graphyy/model"
+	"legendary-kimchi/model"
+	"legendary-kimchi/storage"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // ScooterRepo should i rename it?
-type ScooterRepo struct {
-	db database.Storage
+type ScooterService struct {
+	storage storage.Storage
 }
 
 // NewScooterRepo constructs a ScooterRepo
-func NewScooterRepo(db database.Storage) *ScooterRepo {
-	return &ScooterRepo{
-		db: db,
+func NewScooterService(db storage.Storage) *ScooterService {
+	return &ScooterService{
+		db,
 	}
 }
 
 //https://gist.github.com/Lebski/8f9b5992fec0bf175285f1c13b1e5051
 // GetScootersNearby fetches the scooters within the specified distance.
-func (repo *ScooterRepo) GetScootersNearby(lat float64, lng float64, distance int64, limit int64) ([]model.Point, error) {
+func (repo *ScooterService) GetScootersNearby(lat float64, lng float64, distance int64, limit int64) ([]model.Point, error) {
 	var results []model.Point
-	pointCollection := repo.db.PointerCollection()
+	pointCollection := repo.storage.Mongo.Collection(storage.Scooter)
 	filter := bson.D{
 		{Key: "location", Value: bson.D{
 			{Key: "$near", Value: bson.D{
